@@ -1,0 +1,5 @@
+.card {
+  width: 9.5vw;
+  height: inherit;
+  object-fit: contain;
+}

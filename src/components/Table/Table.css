@@ -1,0 +1,11 @@
+.maingame__table {
+  margin-top: 15px;
+  width: 70vw;
+}
+
+.maingame__table-row {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+}

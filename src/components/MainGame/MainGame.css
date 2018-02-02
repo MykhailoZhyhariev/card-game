@@ -1,0 +1,44 @@
+.maingame {
+  padding-top: 8vh;
+  padding-bottom: 8vh;
+  padding-left: 15vw;
+  padding-right: 15vw;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.maingame__panel {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.maingame__button {
+  outline: none;
+  border: none;
+  background: none;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: -0.25px;
+  color: #fff;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.maingame__button:hover {
+  opacity: 1;
+}
+
+.maingame__score {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+  color: #fff;
+  opacity: 0.8;
+}
+
+.maingame__score-digit {
+  font-family: Krungthep;
+  margin-left: 10px;
+}
