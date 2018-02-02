@@ -1,0 +1,25 @@
+.endgame {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.endgame__image {
+  max-width: 516px;
+  height: auto;
+}
+
+.endgame__name {
+  margin: 9px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 35px;
+  letter-spacing: 0.15px;
+  color: #ffffff;
+  opacity: 0.85;
+  text-align: center;
+}
