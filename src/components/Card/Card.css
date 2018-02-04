@@ -1,6 +1,6 @@
 .card {
   width: 9.5vw;
-  height: 13.2vw;
+  height: auto;
   -moz-user-select: -moz-none;
   -o-user-select: none;
   -khtml-user-select: none;

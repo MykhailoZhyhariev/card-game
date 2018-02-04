@@ -50,7 +50,7 @@ class Table extends Component {
       }
       setCardsState(cardsState);
 
-    }, 1000);
+    }, 3000);
   }
 
   changeCardState(key, newState) {
