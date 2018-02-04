@@ -4,10 +4,6 @@ import './MainGame.css';
 import Table from '../Table/Table.js';
 
 class MainGame extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="maingame">

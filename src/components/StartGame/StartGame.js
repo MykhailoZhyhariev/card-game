@@ -7,7 +7,7 @@ class StartGame extends Component {
   render() {
     return (
       <div className="startgame">
-        <img className="startgame__image" src={image} />
+        <img className="startgame__image" src={image} alt="card" />
         <h1 className="startgame__name">memory game</h1>
         <button className="startgame__button">Начать игру</button>
       </div>

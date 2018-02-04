@@ -7,7 +7,7 @@ class EndGame extends Component {
   render() {
     return (
       <div className="endgame">
-        <img className="endgame__image" src={image} />
+        <img className="endgame__image" src={image} alt="card" />
         <h1 className="endgame__name">Поздравляем! <br /> Ваш итоговый счет: 666</h1>
       </div>
     );
