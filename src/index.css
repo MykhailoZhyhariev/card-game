@@ -7,3 +7,9 @@
 body {
   background: linear-gradient(90deg, #1c6a2d, #1d7531, #1c6a2e);
 }
+
+.container {
+  margin: 0 auto;
+  width: 60vw;
+  height: 100vh;
+}

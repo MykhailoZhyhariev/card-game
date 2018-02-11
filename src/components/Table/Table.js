@@ -49,7 +49,6 @@ class Table extends Component {
         cardsState[cards[i]] = 'close';
       }
       setCardsState(cardsState);
-
     }, 3000);
   }
 

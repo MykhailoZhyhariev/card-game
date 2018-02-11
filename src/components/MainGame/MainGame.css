@@ -1,16 +1,18 @@
 .maingame {
-  padding-top: 8vh;
-  padding-bottom: 8vh;
-  padding-left: 15vw;
-  padding-right: 15vw;
   height: 100vh;
-  box-sizing: border-box;
+}
+
+.maingame .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .maingame__panel {
   display: flex;
   justify-content: space-between;
   font-family: 'Open Sans', sans-serif;
+  font-size: 19px;
 }
 
 .maingame__button {
@@ -18,8 +20,8 @@
   border: none;
   background: none;
   font-weight: 600;
-  font-size: 14px;
-  line-height: 19px;
+  font-size: 1em;
+  line-height: 1.36em;
   letter-spacing: -0.25px;
   color: #fff;
   cursor: pointer;
@@ -32,8 +34,8 @@
 
 .maingame__score {
   font-weight: 700;
-  font-size: 14px;
-  line-height: 19px;
+  font-size: 1em;
+  line-height: 1.36em;
   color: #fff;
   opacity: 0.8;
 }
@@ -41,4 +43,22 @@
 .maingame__score-digit {
   font-family: Krungthep;
   margin-left: 10px;
+}
+
+@media (min-width: 769px) and (max-width: 1440px) {
+  .maingame__panel {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 768px) {
+  .maingame__panel {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 320px) {
+  .maingame__panel {
+    font-size: 9px;
+  }
 }

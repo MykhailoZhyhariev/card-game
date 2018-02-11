@@ -1,11 +1,14 @@
 .maingame__table {
-  margin-top: 15px;
-  width: 70vw;
+  margin-top: 1.2vw;
 }
 
 .maingame__table-row {
-  margin-top: 15px;
+  margin-bottom: 1.2vw;
   display: flex;
   justify-content: space-between;
-  height: 13.2vw;
+  height: 12.5vw;
+}
+
+.maingame__table-row:last-child {
+  margin-bottom: 0px;
 }
