@@ -1,7 +1,7 @@
 import { SELECT_CARD } from '../constants/Card';
 
 const initialState = {
-  selectedCard: null,
+  selectedCard: null
 }
 
 export default function card(state = initialState, action) {

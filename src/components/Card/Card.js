@@ -26,9 +26,9 @@ class Card extends Component {
 
   imageClick() {
     const { table, card, name } = this.props;
-    const { delay } = this.state;
     const { selectCards } = this.props.cardActions;
     const { setCardsState } = this.props.tableActions;
+    const { delay } = this.state;
 
     const setState = (key, newState) => {
       const state = table.cardsState;

@@ -2,12 +2,6 @@
   height: 100vh;
 }
 
-.maingame .container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .maingame__panel {
   display: flex;
   justify-content: space-between;

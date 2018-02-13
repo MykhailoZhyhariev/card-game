@@ -13,10 +13,15 @@ class MainGame extends Component {
     super(props);
 
     this.startNewGame = this.startNewGame.bind(this);
+
+    this.state = {
+      delay: 5000
+    }
   }
 
   startNewGame() {
     const { setCardsState } = this.props.tableActions;
+    const { delay } = this.state;
 
     const randSort = () => Math.random() - 0.5;
 
@@ -42,7 +47,7 @@ class MainGame extends Component {
 
     setTimeout( () => {
       setState(cards, 'close');
-    }, 3000);
+    }, delay);
   }
 
   render() {
