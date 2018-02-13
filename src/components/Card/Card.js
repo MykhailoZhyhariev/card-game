@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import './Card.css';
 
+import * as tableActions from '../../actions/tableActions';
+import * as cardActions from '../../actions/cardActions';
+
+import { cards } from '../../cards';
 import shirt from '../../img/Cards/shirt.png';
 
 class Card extends Component {
@@ -8,62 +14,74 @@ class Card extends Component {
     super(props);
 
     this.imageClick = this.imageClick.bind(this);
-    this.changeCardState = this.changeCardState.bind(this);
-  }
 
-  changeCardState(key, newState) {
-    const { changeState, state } = this.props;
-
-    const cardState = state;
-    cardState[key] = newState;
-    changeState(cardState);
+    this.state = {
+      style: {
+        height: 0,
+        overflow: 'hidden'
+      },
+      delay: 500
+    }
   }
 
   imageClick() {
-    const { addSelectedCard, selectedCard, name } = this.props;
-    const { changeCardState } = this;
+    const { table, card, name } = this.props;
+    const { delay } = this.state;
+    const { selectCards } = this.props.cardActions;
+    const { setCardsState } = this.props.tableActions;
 
-    changeCardState(name, 'open');
+    const setState = (key, newState) => {
+      const state = table.cardsState;
+      state[key] = newState;
+      setCardsState(state);
+    };
 
-    if (!selectedCard) {
-      addSelectedCard(name);
-    } else {
-      if (selectedCard[0] === name[0]) {
-        setTimeout( () => {
-          changeCardState(name, 'delete');
-          changeCardState(selectedCard, 'delete');
-        }, 500)
+    const changeCardsImage = (cards, state, ms) => {
+      setTimeout( () => {
+        cards.map(card => setState(card, state));
+      }, ms);
+    };
+
+    setState(name, 'open');
+
+    if (!card.selectedCard) selectCards(name);
+    else {
+      if (card.selectedCard[0] === name[0]) {
+        changeCardsImage([name, card.selectedCard], 'delete', delay);
       } else {
-        setTimeout( () => {
-          changeCardState(name, 'close');
-          changeCardState(selectedCard, 'close');
-        }, 500);
+        changeCardsImage([name, card.selectedCard], 'close', delay);
       }
-      addSelectedCard(null);
+      selectCards(null);
     }
   }
 
   render() {
-    const { name, image, state } = this.props;
-
-    let img;
-    let clickable = false;
-    if (state[name] === 'open') {
-      img = image;
-      clickable = false;
-    } else if (state[name] === 'close') {
-      img = shirt;
-      clickable = true;
-    }
+    const { table, name } = this.props;
+    const { style } = this.state;
 
     return (
-      <img src={img}
+      <img src={table.cardsState[name] === 'open' ? cards[name]: shirt}
            className="card"
            alt={name}
-           onClick={clickable ? this.imageClick : null}
-           style={state[name] === 'delete' ? {height: 0, overflow: 'hidden'} : null } />
+           onClick={this.imageClick}
+           style={table.cardsState[name] === 'delete' ? style : null}
+      />
     );
   }
 }
 
-export default Card;
+function mapStateToProps(state) {
+  return {
+    table: state.table,
+    card: state.card
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    tableActions: bindActionCreators(tableActions, dispatch),
+    cardActions: bindActionCreators(cardActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Card);

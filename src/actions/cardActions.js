@@ -1,8 +1,8 @@
 import { SELECT_CARD } from '../constants/Card';
 
-export function selectCards(selectedCards) {
+export function selectCards(selectedCard) {
   return {
     type: SELECT_CARD,
-    payload: selectedCards
+    payload: selectedCard
   }
 }

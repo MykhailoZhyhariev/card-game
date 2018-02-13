@@ -19,10 +19,9 @@
   outline: none;
   border: none;
   background: none;
-  font-weight: 600;
   font-size: 1em;
   line-height: 1.36em;
-  letter-spacing: -0.25px;
+  letter-spacing: 0.25px;
   color: #fff;
   cursor: pointer;
   opacity: 0.8;
@@ -45,9 +44,9 @@
   margin-left: 10px;
 }
 
-@media (min-width: 769px) and (max-width: 1440px) {
+@media (min-width: 769px) and (max-width: 1441px) {
   .maingame__panel {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 

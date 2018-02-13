@@ -3,92 +3,54 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import './Table.css';
 
-import * as tableActions from '../../actions/tableActions.js';
-import * as cardActions from '../../actions/cardActions.js';
+import * as tableActions from '../../actions/tableActions';
+import * as cardActions from '../../actions/cardActions';
 
 import Card from '../Card/Card';
-
-import { cards } from '../../common/cards';
-import { getRandomInt, compareRandom } from '../../common/math';
 
 class Table extends Component {
   constructor(props) {
     super(props);
 
-    this.chooseTwoRandomCard = this.chooseTwoRandomCard.bind(this);
-    this.changeCardState = this.changeCardState.bind(this);
     this.getTableRow = this.getTableRow.bind(this);
   }
 
   componentDidMount() {
-    const { setCards, setCardsState } = this.props.tableActions;
+    const { setCardsState } = this.props.tableActions;
 
-    const card = ['2', '3', '4', '5', '6', '7', '8', '9', '0', 'J', 'Q', 'K', 'A'];
+    const randSort = () => Math.random() - 0.5;
 
-    let cards = []
-    for (let i = 0; i < 9; i++) {
-      const number = getRandomInt(0, card.length)
-      const card_number = card[number];
-      const result = this.chooseTwoRandomCard(card_number);
+    const setState = (arr, state) => {
+      const st = {};
+      arr.map(key => st[key] = state);
+      setCardsState(st);
+    };
 
-      cards = cards.concat(result);
-      card.splice(number, 1);
-    }
+    const cardsName = '2 3 4 5 6 7 8 9 0 J Q K A'.split(' ')
+                                                 .sort(randSort)
+                                                 .slice(0, 9);
 
+    const cards = [].concat(...cardsName.map(item => {
+      const suits = 'C D H S'.split(' ')
+                             .sort(randSort)
+                             .slice(0, 2);
+      return [item + suits[0], item + suits[1]];
+    })).sort(randSort);
 
-    let cardsState = {}
-    for (let i = 0; i < cards.length; i++) {
-      cardsState[cards[i]] = 'open';
-    }
-
-    setCardsState(cardsState);
-    setCards(cards.sort(compareRandom));
+    setState(cards ,'open');
 
     setTimeout( () => {
-      for (let i = 0; i < cards.length; i++) {
-        cardsState[cards[i]] = 'close';
-      }
-      setCardsState(cardsState);
+      setState(cards, 'close');
     }, 3000);
   }
 
-  changeCardState(key, newState) {
-    const { changeState, state } = this.props;
-
-    const cardState = state;
-    cardState[key] = newState;
-    changeState(cardState);
-  }
-
-  chooseTwoRandomCard(card_number) {
-    const suit = ['C', 'D', 'H', 'S'];
-
-    let cards = []
-    for (let i = 0; i < 2; i++) {
-      const suit_number = getRandomInt(0, suit.length);
-      cards.push(card_number + suit[suit_number]);
-      suit.splice(suit_number, 1);
-    }
-
-    return cards;
-  }
-
-  getTableRow(arr) {
-    const { table, card } = this.props;
-    const { setCardsState } = this.props.tableActions;
-    const { selectCards } = this.props.cardActions;
-
+  getTableRow(arr, from, to) {
     return (
       <div className="maingame__table-row">
-        {arr.map( (item, key) =>
-          <Card image={cards[item]}
-                name={item}
-                state={table.cardsState}
-                changeState={setCardsState}
-                addSelectedCard={selectCards}
-                selectedCard={card.selectedCards}
-                key={key} />
-        )}
+        {Object.keys(arr)
+               .slice(from, to)
+               .map((item, key) => <Card name={item} key={key} />)
+        }
       </div>
     )
   }
@@ -99,9 +61,9 @@ class Table extends Component {
 
     return (
       <div className="maingame__table">
-        {getTableRow(table.cardsArray.slice(0, 6))}
-        {getTableRow(table.cardsArray.slice(6, 12))}
-        {getTableRow(table.cardsArray.slice(12, 18))}
+        {getTableRow(table.cardsState, 0, 6)}
+        {getTableRow(table.cardsState, 6, 12)}
+        {getTableRow(table.cardsState, 12, 18)}
       </div>
     );
   }
