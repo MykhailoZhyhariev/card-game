@@ -16,32 +16,11 @@ class Table extends Component {
   }
 
   componentDidMount() {
-    const { setCardsState } = this.props.tableActions;
+    window.addEventListener('start-game', this.props.startGame());
+  }
 
-    const randSort = () => Math.random() - 0.5;
-
-    const setState = (arr, state) => {
-      const st = {};
-      arr.map(key => st[key] = state);
-      setCardsState(st);
-    };
-
-    const cardsName = '2 3 4 5 6 7 8 9 0 J Q K A'.split(' ')
-                                                 .sort(randSort)
-                                                 .slice(0, 9);
-
-    const cards = [].concat(...cardsName.map(item => {
-      const suits = 'C D H S'.split(' ')
-                             .sort(randSort)
-                             .slice(0, 2);
-      return [item + suits[0], item + suits[1]];
-    })).sort(randSort);
-
-    setState(cards ,'open');
-
-    setTimeout( () => {
-      setState(cards, 'close');
-    }, 3000);
+  componentWillUnmount() {
+    window.removeEventListener('start-game', this.props.startGame());
   }
 
   getTableRow(arr, from, to) {
