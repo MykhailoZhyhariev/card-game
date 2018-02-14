@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import './Card.css';
 
 import * as tableActions from '../../actions/tableActions';
 import * as cardActions from '../../actions/cardActions';
+import * as appActions from '../../actions/appActions';
 
 import { cards } from '../../cards';
 import shirt from '../../img/Cards/shirt.png';
@@ -17,17 +19,16 @@ class Card extends Component {
 
     this.state = {
       style: {
-        height: 0,
-        overflow: 'hidden'
+        opacity: 0
       },
-      delay: 500
+      delay: 750
     }
   }
 
   imageClick() {
-    const { table, card, name } = this.props;
-    const { selectCards } = this.props.cardActions;
-    const { setCardsState } = this.props.tableActions;
+    const { table, card, name, index } = this.props;
+    const { selectCards, setAnimationProcess } = this.props.cardActions;
+    const { increaseNumberOfPairs, setCardsState } = this.props.tableActions;
     const { delay } = this.state;
 
     const setState = (key, newState) => {
@@ -42,16 +43,42 @@ class Card extends Component {
       }, ms);
     };
 
-    setState(name, 'open');
+    const startAnimation = (from, to, duration) => {
+      setAnimationProcess(null);
+      return ReactDOM.findDOMNode(this).animate([
+        { transform: 'scaleX(' + from + ')' },
+        { transform: 'scaleX(' + to + ')' }
+      ], {
+        duration: duration,
+        easing: 'linear'
+      });
+    };
 
-    if (!card.selectedCard) selectCards(name);
-    else {
-      if (card.selectedCard[0] === name[0]) {
-        changeCardsImage([name, card.selectedCard], 'delete', delay);
-      } else {
-        changeCardsImage([name, card.selectedCard], 'close', delay);
+    const animationStart = startAnimation(1, 0, 250);
+    animationStart.onfinish = () => {
+      setState(name, 'open');
+      const animationEnd = startAnimation(0, 1, 250);
+      animationEnd.onfinish = () => {
+        setAnimationProcess('finished');
       }
-      selectCards(null);
+    };
+
+    // подумать над этим куском кода
+    if (!card.selectedCard) {
+      selectCards({
+        name: name,
+        index: index
+      });
+    } else {
+      if (card.selectedCard.name[0] === name[0] &&
+          card.selectedCard.index !== index) {
+        increaseNumberOfPairs(table.numberOfPairs + 1);
+        changeCardsImage([name, card.selectedCard.name], 'delete', delay);
+        selectCards(null);
+      } else if (card.selectedCard.index !== index) {
+        changeCardsImage([name, card.selectedCard.name], 'close', delay);
+        selectCards(null);
+      }
     }
   }
 
@@ -63,7 +90,8 @@ class Card extends Component {
       <img src={table.cardsState[name] === 'open' ? cards[name]: shirt}
            className="card"
            alt={name}
-           onClick={this.imageClick}
+           id={name}
+           onClick={table.cardsState[name] !== 'delete' ? this.imageClick : null}
            style={table.cardsState[name] === 'delete' ? style : null}
       />
     );
@@ -73,14 +101,16 @@ class Card extends Component {
 function mapStateToProps(state) {
   return {
     table: state.table,
-    card: state.card
+    card: state.card,
+    app: state.app
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     tableActions: bindActionCreators(tableActions, dispatch),
-    cardActions: bindActionCreators(cardActions, dispatch)
+    cardActions: bindActionCreators(cardActions, dispatch),
+    appActions: bindActionCreators(appActions, dispatch)
   }
 }
 

@@ -15,12 +15,12 @@ class MainGame extends Component {
     this.startNewGame = this.startNewGame.bind(this);
 
     this.state = {
-      delay: 5000
+      delay: 1000
     }
   }
 
   startNewGame() {
-    const { setCardsState } = this.props.tableActions;
+    const { setCardsState, increaseNumberOfPairs } = this.props.tableActions;
     const { delay } = this.state;
 
     const randSort = () => Math.random() - 0.5;
@@ -36,8 +36,8 @@ class MainGame extends Component {
                    .sort(randSort)
                    .slice(0, length)
     }
-    const cardsName = arrSlice('2 3 4 5 6 7 8 9 0 J Q K A', 9);
 
+    const cardsName = arrSlice('2 3 4 5 6 7 8 9 0 J Q K A', 9);
     const cards = [].concat(...cardsName.map(item => {
       const suits = arrSlice('C D H S', 2);
       return [item + suits[0], item + suits[1]];
@@ -48,6 +48,8 @@ class MainGame extends Component {
     setTimeout( () => {
       setState(cards, 'close');
     }, delay);
+
+    increaseNumberOfPairs(0);
   }
 
   render() {

@@ -38,7 +38,7 @@
   margin-left: 10px;
 }
 
-@media (min-width: 769px) and (max-width: 1441px) {
+@media (min-width: 769px) and (max-width: 1440px) {
   .maingame__panel {
     font-size: 16px;
   }

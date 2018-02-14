@@ -1,6 +1,7 @@
 .card {
   width: 9vw;
-  height: auto;
+  height: 12.5vw;
+  margin-bottom: 1.2vw;
   -moz-user-select: -moz-none;
   -o-user-select: none;
   -khtml-user-select: none;
