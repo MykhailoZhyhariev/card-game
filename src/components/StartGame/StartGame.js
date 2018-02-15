@@ -7,14 +7,15 @@ import image from '../../img/StartGame.png'
 class StartGame extends Component {
   render() {
     return (
-      <div className="startgame">
+      <div className="startgame" data-tid="App">
         <img className="startgame__image"
              src={image}
-             srcset={`${image2x} 2x`}
+             srcSet={`${image2x} 2x`}
              alt="card" />
         <h1 className="startgame__name">memory game</h1>
         <button className="startgame__button"
-                onClick={this.props.startGame}>
+                onClick={this.props.startGame}
+                data-tid="NewGame-startGame">
                 Начать игру
         </button>
       </div>

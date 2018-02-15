@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import './MainGame.css';
@@ -61,13 +60,14 @@ class MainGame extends Component {
   }
 
   render() {
-    const { app, card, table } = this.props;
+    const { app, table, card } = this.props;
     const { changeGameState } = this.props.appActions;
     const { increaseNumberOfPairs } = this.props.tableActions;
 
-    if (table.numberOfPairs === MAX_PAIRS) {
+    if (table.numberOfPairs === MAX_PAIRS &&
+        card.animationState === 'finished') {
           increaseNumberOfPairs(0);
-          setTimeout( () => changeGameState('end'), 250);
+          setTimeout( () => changeGameState('end'), 750);
     }
 
     return (
@@ -75,12 +75,13 @@ class MainGame extends Component {
         <div className="container">
           <div className="maingame__panel">
             <button className="maingame__button"
-                    onClick={this.startNewGame}>
+                    onClick={this.startNewGame}
+                    data-tid="Menu-newGame">
                     Начать заново
             </button>
             <span className="maingame__score">
               Очки:
-              <span className="maingame__score-digit">{app.score}</span>
+              <span className="maingame__score-digit" data-tid="Menu-scores">{app.score}</span>
             </span>
           </div>
           <Table />

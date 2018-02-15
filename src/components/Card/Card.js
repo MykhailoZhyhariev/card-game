@@ -11,7 +11,8 @@ import * as appActions from '../../actions/appActions';
 import { cards } from '../../cards';
 import shirt from '../../img/Cards/shirt.png';
 
-const DELAY = 500;
+const DELAY = 750;
+const ANIMATION_DURATION = 250;
 
 class Card extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class Card extends Component {
 
   imageClick() {
     const { app, table, card, name, index } = this.props;
-    const { selectCards, setAnimationProcess } = this.props.cardActions;
+    const { selectCards, setAnimationState } = this.props.cardActions;
     const { increaseNumberOfPairs, setCardsState } = this.props.tableActions;
     const { changeScore } = this.props.appActions;
 
@@ -42,7 +43,25 @@ class Card extends Component {
       }, ms);
     };
 
-    setState(name, 'open');
+    const animation = (from, to, duration) => {
+      setAnimationState(null);
+      return ReactDOM.findDOMNode(this).animate([
+        { transform: `scaleX(${from})` },
+        { transform: `scaleX(${to})` }
+      ], {
+        duration: duration,
+        easing: 'linear'
+      })
+    }
+
+    const animationStart = animation(1, 0, ANIMATION_DURATION);
+    animationStart.onfinish = () => {
+      setState(name, 'open');
+      const animationEnd = animation(0, 1, ANIMATION_DURATION);
+      animationEnd.onfinish = () => {
+        setAnimationState('finished');
+      }
+    }
 
     if (!card.selectedCard) {
       selectCards({
@@ -67,12 +86,15 @@ class Card extends Component {
   render() {
     const { table, name } = this.props;
 
+    const testAttr = table.cardsState[name] === 'open' ? "Card" : 'Card-flipped'
+
     return (
       <img src={table.cardsState[name] === 'open' ? cards[name]: shirt}
            className="card"
            alt={name}
            onClick={table.cardsState[name] !== 'delete' ? this.imageClick : null}
            style={table.cardsState[name] === 'delete' ? {opacity: 0} : null}
+           data-tid={testAttr}
       />
     );
   }

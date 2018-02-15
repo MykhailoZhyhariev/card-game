@@ -9,7 +9,7 @@ class Table extends Component {
     const { table } = this.props;
 
     return (
-      <div className="maingame__table">
+      <div className="maingame__table" data-tid="Deck">
         {Object.keys(table.cardsState)
                .map((item, key) => <Card name={item} index={key} key={key} />)
         }
