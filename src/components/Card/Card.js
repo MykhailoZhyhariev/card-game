@@ -19,14 +19,10 @@ class Card extends Component {
     super(props);
 
     this.imageClick = this.imageClick.bind(this);
-
-    this.state = {
-      img: shirt
-    }
   }
 
   imageClick() {
-    const { app, table, card, name, index } = this.props;
+    const { app, table, card, name } = this.props;
     const { selectCards, setAnimationState } = this.props.cardActions;
     const { increaseNumberOfPairs, setCardsState } = this.props.tableActions;
     const { changeScore } = this.props.appActions;
@@ -63,23 +59,17 @@ class Card extends Component {
       }
     }
 
-    if (!card.selectedCard) {
-      selectCards({
-        name: name,
-        index: index
-      });
-    } else {
-      if (card.selectedCard.name[0] === name[0] &&
-          card.selectedCard.index !== index) {
+    if (!card.selectedCard) selectCards(name);
+    else {
+      if (card.selectedCard[0] === name[0]) {
         increaseNumberOfPairs(table.numberOfPairs + 1);
-        changeCardsImage([name, card.selectedCard.name], 'delete', DELAY);
+        changeCardsImage([name, card.selectedCard], 'delete', DELAY);
         changeScore(app.score + (9 - table.numberOfPairs) * 42);
-        selectCards(null);
-      } else if (card.selectedCard.index !== index) {
-        changeCardsImage([name, card.selectedCard.name], 'close', DELAY);
+      } else {
+        changeCardsImage([name, card.selectedCard], 'close', DELAY);
         changeScore(app.score - (table.numberOfPairs) * 42);
-        selectCards(null);
       }
+      selectCards(null);
     }
   }
 
@@ -92,7 +82,7 @@ class Card extends Component {
       <img src={table.cardsState[name] === 'open' ? cards[name]: shirt}
            className="card"
            alt={name}
-           onClick={table.cardsState[name] !== 'delete' ? this.imageClick : null}
+           onClick={table.cardsState[name] === 'close' ? this.imageClick : null}
            style={table.cardsState[name] === 'delete' ? {opacity: 0} : null}
            data-tid={testAttr}
       />

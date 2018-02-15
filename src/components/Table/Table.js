@@ -11,7 +11,7 @@ class Table extends Component {
     return (
       <div className="maingame__table" data-tid="Deck">
         {Object.keys(table.cardsState)
-               .map((item, key) => <Card name={item} index={key} key={key} />)
+               .map((item, key) => <Card name={item} key={key} />)
         }
       </div>
     )

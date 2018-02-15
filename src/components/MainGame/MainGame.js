@@ -59,15 +59,17 @@ class MainGame extends Component {
     this.startNewGame();
   }
 
+  componentWillUnmount() {
+    this.props.tableActions.increaseNumberOfPairs(0);
+  }
+
   render() {
     const { app, table, card } = this.props;
     const { changeGameState } = this.props.appActions;
-    const { increaseNumberOfPairs } = this.props.tableActions;
 
     if (table.numberOfPairs === MAX_PAIRS &&
         card.animationState === 'finished') {
-          increaseNumberOfPairs(0);
-          setTimeout( () => changeGameState('end'), 750);
+          setTimeout( () => changeGameState('end'), 500);
     }
 
     return (
