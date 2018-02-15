@@ -61,8 +61,9 @@ class Card extends Component {
     return (
       <img src={table.cardsState[name] === 'open' ? cards[name]: shirt}
            className="card"
-           alt={name}
+           alt={table.cardsState[name] === 'open' ? name : 'shirt'}
            onClick={table.cardsState[name] === 'close' ? this.imageClick : null}
+           onDragStart={(e) => e.preventDefault()}
            style={table.cardsState[name] === 'delete' ? {opacity: 0} : null}
            data-tid={testAttr}
       />
