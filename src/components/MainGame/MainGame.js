@@ -17,10 +17,14 @@ class MainGame extends Component {
     super(props);
 
     this.startNewGame = this.startNewGame.bind(this);
+
+    this.state = {
+      click: true
+    }
   }
 
   startNewGame() {
-    const { setCardsState, increaseNumberOfPairs } = this.props.tableActions;
+    const { setCardsState, increaseNumberOfPairs, setClickable } = this.props.tableActions;
     const { selectCards } = this.props.cardActions;
     const { changeScore } = this.props.appActions;
 
@@ -38,6 +42,8 @@ class MainGame extends Component {
                    .slice(0, length)
     }
 
+    setClickable(false);
+
     const cardsName = arrSlice('2 3 4 5 6 7 8 9 0 J Q K A', 9);
     const cards = [].concat(...cardsName.map(item => {
       const suits = arrSlice('C D H S', 2);
@@ -48,6 +54,7 @@ class MainGame extends Component {
 
     setTimeout( () => {
       setState(cards, 'close');
+      setClickable(true);
     }, DELAY);
 
     selectCards(null);
@@ -64,11 +71,10 @@ class MainGame extends Component {
   }
 
   render() {
-    const { app, table, card } = this.props;
+    const { app, table } = this.props;
     const { changeGameState } = this.props.appActions;
 
-    if (table.numberOfPairs === MAX_PAIRS &&
-        card.animationState === 'finished') {
+    if (table.numberOfPairs === MAX_PAIRS) {
           setTimeout( () => changeGameState('end'), 500);
     }
 
@@ -77,7 +83,7 @@ class MainGame extends Component {
         <div className="container">
           <div className="maingame__panel">
             <button className="maingame__button"
-                    onClick={this.startNewGame}
+                    onClick={table.clickable ? this.startNewGame : null}
                     data-tid="Menu-newGame">
                     Начать заново
             </button>

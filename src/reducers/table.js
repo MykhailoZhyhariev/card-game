@@ -1,8 +1,9 @@
-import { CARDS_STATE, INCREASE_NUMBER_OF_PAIRS } from '../constants/Table.js';
+import { CARDS_STATE, INCREASE_NUMBER_OF_PAIRS, PLAY_AGAIN } from '../constants/Table.js';
 
 const initialState = {
   cardsState: {},
-  numberOfPairs: 0
+  numberOfPairs: 0,
+  clickable: true
 }
 
 export default function table(state = initialState, action) {
@@ -12,6 +13,9 @@ export default function table(state = initialState, action) {
 
     case INCREASE_NUMBER_OF_PAIRS:
       return { ...state, numberOfPairs: action.payload };
+
+    case PLAY_AGAIN:
+      return { ...state, clickable: action.payload };
 
     default:
       return state;

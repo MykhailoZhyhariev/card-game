@@ -1,4 +1,4 @@
-import { CARDS_STATE, INCREASE_NUMBER_OF_PAIRS } from '../constants/Table.js';
+import { CARDS_STATE, INCREASE_NUMBER_OF_PAIRS, PLAY_AGAIN } from '../constants/Table.js';
 
 export function setCardsState(cardsState) {
   return {
@@ -11,5 +11,12 @@ export function increaseNumberOfPairs(numberOfPairs) {
   return {
     type: INCREASE_NUMBER_OF_PAIRS,
     payload: numberOfPairs
+  }
+}
+
+export function setClickable(clickable) {
+  return {
+    type: PLAY_AGAIN,
+    payload: clickable
   }
 }

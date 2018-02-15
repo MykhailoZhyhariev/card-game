@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import './Card.css';
@@ -11,8 +10,7 @@ import * as appActions from '../../actions/appActions';
 import { cards } from '../../cards';
 import shirt from '../../img/Cards/shirt.png';
 
-const DELAY = 750;
-const ANIMATION_DURATION = 250;
+const DELAY = 500;
 
 class Card extends Component {
   constructor(props) {
@@ -23,7 +21,7 @@ class Card extends Component {
 
   imageClick() {
     const { app, table, card, name } = this.props;
-    const { selectCards, setAnimationState } = this.props.cardActions;
+    const { selectCards } = this.props.cardActions;
     const { increaseNumberOfPairs, setCardsState } = this.props.tableActions;
     const { changeScore } = this.props.appActions;
 
@@ -39,25 +37,7 @@ class Card extends Component {
       }, ms);
     };
 
-    const animation = (from, to, duration) => {
-      setAnimationState(null);
-      return ReactDOM.findDOMNode(this).animate([
-        { transform: `scaleX(${from})` },
-        { transform: `scaleX(${to})` }
-      ], {
-        duration: duration,
-        easing: 'linear'
-      })
-    }
-
-    const animationStart = animation(1, 0, ANIMATION_DURATION);
-    animationStart.onfinish = () => {
-      setState(name, 'open');
-      const animationEnd = animation(0, 1, ANIMATION_DURATION);
-      animationEnd.onfinish = () => {
-        setAnimationState('finished');
-      }
-    }
+    setState(name, 'open');
 
     if (!card.selectedCard) selectCards(name);
     else {
