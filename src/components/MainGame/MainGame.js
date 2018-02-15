@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import './MainGame.css';
 
 import * as tableActions from '../../actions/tableActions';
 import * as cardActions from '../../actions/cardActions';
+import * as appActions from '../../actions/appActions';
 
 import Table from '../Table/Table.js';
+
+const DELAY = 1000;
+const MAX_PAIRS = 1;
 
 class MainGame extends Component {
   constructor(props) {
     super(props);
 
     this.startNewGame = this.startNewGame.bind(this);
-
-    this.state = {
-      delay: 1000
-    }
   }
 
   startNewGame() {
     const { setCardsState, increaseNumberOfPairs } = this.props.tableActions;
-    const { delay } = this.state;
+    const { selectCards } = this.props.cardActions;
+    const { changeScore } = this.props.appActions;
 
     const randSort = () => Math.random() - 0.5;
 
@@ -47,12 +49,27 @@ class MainGame extends Component {
 
     setTimeout( () => {
       setState(cards, 'close');
-    }, delay);
+    }, DELAY);
 
+    selectCards(null);
     increaseNumberOfPairs(0);
+    changeScore(0);
+  }
+
+  componentDidMount() {
+    this.startNewGame();
   }
 
   render() {
+    const { app, card, table } = this.props;
+    const { changeGameState } = this.props.appActions;
+    const { increaseNumberOfPairs } = this.props.tableActions;
+
+    if (table.numberOfPairs === MAX_PAIRS) {
+          increaseNumberOfPairs(0);
+          setTimeout( () => changeGameState('end'), 250);
+    }
+
     return (
       <div className="maingame">
         <div className="container">
@@ -63,10 +80,10 @@ class MainGame extends Component {
             </button>
             <span className="maingame__score">
               Очки:
-              <span className="maingame__score-digit">0</span>
+              <span className="maingame__score-digit">{app.score}</span>
             </span>
           </div>
-          <Table startGame={this.startNewGame} />
+          <Table />
         </div>
       </div>
     );
@@ -76,14 +93,16 @@ class MainGame extends Component {
 function mapStateToProps(state) {
   return {
     table: state.table,
-    card: state.card
+    card: state.card,
+    app: state.app
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     tableActions: bindActionCreators(tableActions, dispatch),
-    cardActions: bindActionCreators(cardActions, dispatch)
+    cardActions: bindActionCreators(cardActions, dispatch),
+    appActions: bindActionCreators(appActions, dispatch)
   }
 }
 

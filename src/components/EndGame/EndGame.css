@@ -12,7 +12,7 @@
   height: auto;
 }
 
-.endgame__name {
+.endgame__text {
   margin: 9px;
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
@@ -22,4 +22,23 @@
   color: #fff;
   opacity: 0.85;
   text-align: center;
+}
+
+.endgame__button {
+  margin-top: 40px;
+  padding: 10px 30px;
+  border-radius: 4px;
+  opacity: 0.85;
+  background-color: #fff;
+  outline: none;
+  border: none;
+  font-family: 'Open Sans';
+  font-weight: bold;
+  font-size: 16px;
+  color: #1C7430;
+}
+
+.endgame__button:hover {
+  opacity: 1;
+  cursor: pointer;
 }

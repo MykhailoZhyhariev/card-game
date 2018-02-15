@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import './Table.css';
 
 import Card from '../Card/Card';
 
 class Table extends Component {
-  componentDidMount() {
-    window.addEventListener('start-game', this.props.startGame());
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('start-game', this.props.startGame());
-  }
-
   render() {
     const { table } = this.props;
 

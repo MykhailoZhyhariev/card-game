@@ -11,7 +11,11 @@ import EndGame from '../components/EndGame/EndGame.js'
 class App extends Component {
   render() {
     const { changeGameState } = this.props.appActions;
-    const { app, table, card } = this.props;
+    const { app } = this.props;
+
+    const startGame = () => {
+      changeGameState('game');
+    }
 
     const screen = () => {
       switch (app.gameState) {
@@ -19,16 +23,11 @@ class App extends Component {
           return <MainGame />
 
         case 'end':
-          return <EndGame />
+          return <EndGame startGame={startGame} score={app.score} />
 
         default:
-          return <StartGame startGame={changeGameState} />
+          return <StartGame startGame={startGame} />
       }
-    }
-
-    if (table.numberOfPairs > 0 &&
-        card.animationProcess === 'finished') {
-          changeGameState('end');
     }
 
     return screen();
@@ -37,9 +36,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    app: state.app,
-    card: state.card,
-    table: state.table
+    app: state.app
   }
 }
 

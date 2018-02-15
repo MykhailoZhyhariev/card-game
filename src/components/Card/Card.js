@@ -11,6 +11,8 @@ import * as appActions from '../../actions/appActions';
 import { cards } from '../../cards';
 import shirt from '../../img/Cards/shirt.png';
 
+const DELAY = 500;
+
 class Card extends Component {
   constructor(props) {
     super(props);
@@ -18,18 +20,15 @@ class Card extends Component {
     this.imageClick = this.imageClick.bind(this);
 
     this.state = {
-      style: {
-        opacity: 0
-      },
-      delay: 750
+      img: shirt
     }
   }
 
   imageClick() {
-    const { table, card, name, index } = this.props;
+    const { app, table, card, name, index } = this.props;
     const { selectCards, setAnimationProcess } = this.props.cardActions;
     const { increaseNumberOfPairs, setCardsState } = this.props.tableActions;
-    const { delay } = this.state;
+    const { changeScore } = this.props.appActions;
 
     const setState = (key, newState) => {
       const state = table.cardsState;
@@ -43,27 +42,8 @@ class Card extends Component {
       }, ms);
     };
 
-    const startAnimation = (from, to, duration) => {
-      setAnimationProcess(null);
-      return ReactDOM.findDOMNode(this).animate([
-        { transform: 'scaleX(' + from + ')' },
-        { transform: 'scaleX(' + to + ')' }
-      ], {
-        duration: duration,
-        easing: 'linear'
-      });
-    };
+    setState(name, 'open');
 
-    const animationStart = startAnimation(1, 0, 250);
-    animationStart.onfinish = () => {
-      setState(name, 'open');
-      const animationEnd = startAnimation(0, 1, 250);
-      animationEnd.onfinish = () => {
-        setAnimationProcess('finished');
-      }
-    };
-
-    // подумать над этим куском кода
     if (!card.selectedCard) {
       selectCards({
         name: name,
@@ -73,10 +53,12 @@ class Card extends Component {
       if (card.selectedCard.name[0] === name[0] &&
           card.selectedCard.index !== index) {
         increaseNumberOfPairs(table.numberOfPairs + 1);
-        changeCardsImage([name, card.selectedCard.name], 'delete', delay);
+        changeCardsImage([name, card.selectedCard.name], 'delete', DELAY);
+        changeScore(app.score + (9 - table.numberOfPairs) * 42);
         selectCards(null);
       } else if (card.selectedCard.index !== index) {
-        changeCardsImage([name, card.selectedCard.name], 'close', delay);
+        changeCardsImage([name, card.selectedCard.name], 'close', DELAY);
+        changeScore(app.score - (table.numberOfPairs) * 42);
         selectCards(null);
       }
     }
@@ -84,15 +66,13 @@ class Card extends Component {
 
   render() {
     const { table, name } = this.props;
-    const { style } = this.state;
 
     return (
       <img src={table.cardsState[name] === 'open' ? cards[name]: shirt}
            className="card"
            alt={name}
-           id={name}
            onClick={table.cardsState[name] !== 'delete' ? this.imageClick : null}
-           style={table.cardsState[name] === 'delete' ? style : null}
+           style={table.cardsState[name] === 'delete' ? {opacity: 0} : null}
       />
     );
   }
