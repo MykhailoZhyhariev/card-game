@@ -9,8 +9,8 @@ import * as appActions from '../../actions/appActions';
 
 import Table from '../Table/Table.js';
 
-const DELAY = 1000;
-const MAX_PAIRS = 1;
+const DELAY = 5000;
+const MAX_PAIRS = 9;
 
 class MainGame extends Component {
   constructor(props) {
